@@ -1,8 +1,24 @@
 import Head from "next/head";
-import { Table, Tbody, Tr, Td } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { Table, Tbody, Tr, Td, Button } from "@chakra-ui/react";
 
 export default function Home({ array }) {
-  console.log(array);
+  const [state, setState] = useState(false);
+
+  useEffect(() => {
+    newWord();
+  }, []);
+  console.log(state);
+  const newWord = () => {
+    fetch("/api/vocapi")
+      .then((re) => re.json())
+      .then((data) => setState(data));
+  };
+  let ramdomWord;
+  if (state) {
+    const array = state.englishList[0].data;
+    ramdomWord = array[Math.floor(Math.random() * array.length)].en;
+  }
   return (
     <>
       <Head>
@@ -11,8 +27,8 @@ export default function Home({ array }) {
         <title>TITRE</title>
       </Head>
       <div>
-        <h1>vocabulaire de base</h1>
-        <Table variant="simple">
+        <h1>mot au hasard</h1>
+        {/* <Table variant="simple">
           <Tbody>
             {array.map((el) => (
               <Tr key={el.en}>
@@ -21,7 +37,9 @@ export default function Home({ array }) {
               </Tr>
             ))}
           </Tbody>
-        </Table>
+        </Table> */}
+        <Button onClick={newWord}>get Ramdom words</Button>
+        <h1>{ramdomWord}</h1>
       </div>
     </>
   );
