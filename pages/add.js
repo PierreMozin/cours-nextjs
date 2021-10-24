@@ -1,35 +1,78 @@
 import React, { useEffect, useState, useRef } from "react";
-import { FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
+import {
+  FormErrorMessage,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+} from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
 
 export default function Add() {
-  const enWord = useRef();
-  const frWord = useRef();
+  const {
+    handleSubmit,
+    register,
+    reset,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newWord = { en: enWord.current.value, fr: frWord.current.value };
-    console.log(newWord);
-    fetch("/api/vocapi", {
+  console.log(errors);
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const onSubmit = async (newWord) => {
+    const response = await fetch("/api/vocapi", {
       method: "POST",
       body: JSON.stringify(newWord),
       headers: { "content-type": "application/json" },
-    })
-      .then((re) => re.json())
-      .then((data) => {
-        console.log(data);
-      });
-    enWord.current.value = "";
-    frWord.current.value = "";
+    });
+    await sleep(1000);
+    const data = await response.json();
+    reset();
+    console.log(data);
   };
+  const full = watch("en") && watch("fr");
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <FormLabel id={1}>Ajoute un mot en anglais</FormLabel>
-        <input id={2} ref={enWord} />
-        <FormLabel id={3}>Ajouter un mot en français</FormLabel>
-        <input id={4} ref={frWord} />
-        <button>ajouter</button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl id="en" isInvalid={errors.en}>
+          <FormLabel id="en">Ajoute un mot en anglais</FormLabel>
+          <Input
+            id="en"
+            placeholder="English word"
+            {...register("en", {
+              required: "This is required",
+              minLength: { value: 4, message: "Minimum length should be 4" },
+            })}
+          />
+
+          <FormErrorMessage id="en">
+            {errors.en && errors.en.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl id="fr" isInvalid={errors.fr}>
+          <FormLabel id="fr">Ajouter un mot en français</FormLabel>
+          <Input
+            id="fr"
+            placeholder="french word"
+            {...register("fr", {
+              required: "This is required",
+              minLength: { value: 4, message: "Minimum length should be 4" },
+            })}
+          />{" "}
+          <FormErrorMessage id="fr">
+            {errors.fr && errors.fr.message}
+          </FormErrorMessage>
+        </FormControl>
+        <Button
+          mt={4}
+          colorScheme="teal"
+          isLoading={isSubmitting}
+          type="submit"
+          isDisabled={!full}
+        >
+          ajouter
+        </Button>
       </form>
     </>
   );
