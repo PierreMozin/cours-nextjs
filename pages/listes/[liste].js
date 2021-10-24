@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, Tbody, Tr, Td } from "@chakra-ui/react";
 
-export default function liste({ listeEnCours, slug }) {
+export default function Liste({ listeEnCours, slug }) {
   console.log(slug);
   return (
     <>
@@ -22,11 +22,11 @@ export default function liste({ listeEnCours, slug }) {
 
 export async function getStaticProps(context) {
   const slug = context.params.liste;
-  console.log(slug);
+  console.log("SLUG" + slug);
   const data = await import("/data/listes.json");
   const listeEnCours = data.englishList.find((list) => list.name === slug);
-
-  return { props: { listeEnCours: listeEnCours.data, slug } };
+  listeEnCours.data.map((el) => console.log(el));
+  return { props: { listeEnCours: listeEnCours.data, slug }, revalidate: 20 };
 }
 
 export async function getStaticPaths() {
@@ -35,5 +35,5 @@ export async function getStaticPaths() {
     params: { liste: item.name },
   }));
 
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 }

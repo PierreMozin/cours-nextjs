@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function cours({ results }) {
+export default function Cours({ results }) {
   console.log(results);
   return (
     <div>

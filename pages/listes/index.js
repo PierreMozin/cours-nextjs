@@ -9,9 +9,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 
-export default function index({ data }) {
-  //const liste = data.reduce((acc, el) => [...acc, ...Object.keys(el)], []);
-
+export default function Index({ data }) {
   return (
     <div>
       <Box w="100%" p={4}>
@@ -31,6 +29,5 @@ export default function index({ data }) {
 export async function getStaticProps() {
   const liste = await import(`/data/listes.json`);
   const data = liste.englishList;
-
   return { props: { data } };
 }

@@ -1,19 +1,17 @@
 import React from "react";
 
-export default function contact({ data }) {
+export default function Contact({ data }) {
   console.log(data);
 
   return (
     <div>
-      <h1>{data.quotes[0].text}</h1>
+      <h1>{data[0].q}</h1>
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const quote = await fetch(
-    "https://goquotes-api.herokuapp.com/api/v1/random?count=1"
-  );
+  const quote = await fetch("https://zenquotes.io/api/random");
   const data = await quote.json();
-  return { props: { data }, revalidate: 20 };
+  return { props: { data }, revalidate: 10 };
 }
