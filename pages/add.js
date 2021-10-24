@@ -21,7 +21,7 @@ export default function Add() {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   reset();
   const onSubmit = async (newWord) => {
-    const response = await fetch("cours-nextjs.vercel.app/api/vocapi", {
+    const response = await fetch("/api/vocapi", {
       method: "POST",
       body: JSON.stringify(newWord),
       headers: { "content-type": "application/json" },
