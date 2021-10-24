@@ -19,8 +19,8 @@ export default function Add() {
 
   console.log(errors);
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  reset();
   const onSubmit = async (newWord) => {
+    reset(["en", "fr"]);
     const response = await fetch("/api/vocapi", {
       method: "POST",
       body: JSON.stringify(newWord),
