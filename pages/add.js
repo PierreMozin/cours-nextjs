@@ -19,15 +19,16 @@ export default function Add() {
 
   console.log(errors);
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  reset();
   const onSubmit = async (newWord) => {
-    const response = await fetch("/api/vocapi", {
+    const response = await fetch("cours-nextjs.vercel.app/api/vocapi", {
       method: "POST",
       body: JSON.stringify(newWord),
       headers: { "content-type": "application/json" },
     });
     await sleep(1000);
     const data = await response.json();
-    reset();
+
     console.log(data);
   };
   const full = watch("en") && watch("fr");
