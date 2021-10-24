@@ -6,7 +6,7 @@ export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       <Link href="/">
-        <a>Acceuil</a>
+        <a>Acceuill</a>
       </Link>
       <Link href="/listes">
         <a>Listes</a>

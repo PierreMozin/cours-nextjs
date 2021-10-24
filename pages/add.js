@@ -6,13 +6,13 @@ export default function Add() {
   const frWord = useRef();
 
   const handleSubmit = (e) => {
-    e.prevenDefault();
+    e.preventDefault();
     const newWord = { en: enWord.current.value, fr: frWord.current.value };
-
+    console.log(newWord);
     fetch("/api/vocapi", {
       method: "POST",
       body: JSON.stringify(newWord),
-      headers: { "content-type": "applocation/json" },
+      headers: { "content-type": "application/json" },
     })
       .then((re) => re.json())
       .then((data) => {
@@ -24,13 +24,13 @@ export default function Add() {
 
   return (
     <>
-      <FormControl onSubmit={handleSubmit}>
-        <FormLabel>Ajouter un mot en anglais</FormLabel>
-        <Input ref={enWord} />
-        <FormLabel>Ajouter un mot en français</FormLabel>
-        <Input ref={frWord} />
-        <Button>ajouter</Button>
-      </FormControl>
+      <form onSubmit={handleSubmit}>
+        <FormLabel id={1}>Ajoute un mot en anglais</FormLabel>
+        <input id={2} ref={enWord} />
+        <FormLabel id={3}>Ajouter un mot en français</FormLabel>
+        <input id={4} ref={frWord} />
+        <button>ajouter</button>
+      </form>
     </>
   );
 }

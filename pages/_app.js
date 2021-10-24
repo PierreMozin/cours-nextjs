@@ -4,11 +4,12 @@ import Container from "../components/Container/Container";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Container>
-      <ChakraProvider>
+    <ChakraProvider>
+      {" "}
+      <Container>
         <Component {...pageProps} />
-      </ChakraProvider>{" "}
-    </Container>
+      </Container>
+    </ChakraProvider>
   );
 }
 

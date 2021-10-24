@@ -15,7 +15,6 @@ export default function handler(req, res) {
     const newWord = { en: enWord, fr: frWord };
     data.englishList[0].data.push(newWord);
     fs.writeFileSync(filePath, JSON.stringify(data));
-
-    res.statut(201).json({ message: "Succès!" });
+    res.status(201).json({ message: "Succès!" });
   }
 }
